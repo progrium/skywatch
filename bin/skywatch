@@ -10,6 +10,7 @@ include Skywatch
 program :name, 'skywatch'
 program :version, Skywatch::VERSION
 program :description, 'Simple, Unix-oriented alerting system'
+default_command :all
 
 def display_check(check)
   status = check.enabled? ? "'enabled', :green" : "'disabled', :red"
@@ -55,6 +56,21 @@ command :alerts do |c|
   c.syntax = 'skywatch alerts'
   c.description = 'Lists alerts'
   c.action do |args, options|
+    puts "  Alerts for #{name}"
+    alerts.each do |alert|
+      display_alert alert
+    end
+  end
+end
+
+command :all do |c|
+  c.syntax = 'skywatch all'
+  c.description = 'Lists checks and alerts'
+  c.action do |args, options|
+    puts "  Checks for #{name}"
+    checks.each do |check|
+      display_check check
+    end
     puts "  Alerts for #{name}"
     alerts.each do |alert|
       display_alert alert
@@ -125,6 +141,34 @@ command :'create check' do |c|
     interpreter = args.length > 2 ? args[2] : 'bash'
     check = create_check(args[0], args[1], interpreter)
     display_check check
+  end
+end
+
+command :'edit alert' do |c|
+  c.syntax = 'skywatch edit alert <name>'
+  c.description = 'Open the alert script in an editor'
+  c.action do |args|
+    fail unless args.length > 0
+    if ENV['EDITOR'].to_s.empty?
+      puts "The EDITOR environment variable is not defined."
+    else
+      alert = alert(args.first)
+      exec "#{ENV['EDITOR']} #{alert.path}"
+    end
+  end
+end
+
+command :'edit check' do |c|
+  c.syntax = 'skywatch edit check <name>'
+  c.description = 'Open the check script in an editor'
+  c.action do |args|
+    fail unless args.length > 0
+    if ENV['EDITOR'].to_s.empty?
+      puts "The EDITOR environment variable is not defined."
+    else
+      check = check(args.first)
+      exec "#{ENV['EDITOR']} #{check.path}"
+    end
   end
 end
 

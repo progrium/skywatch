@@ -8,8 +8,8 @@ Gem::Specification.new do |gem|
   gem.version       = Skywatch::VERSION
   gem.authors       = ["Jeff Lindsay"]
   gem.email         = ["progrium@gmail.com"]
-  gem.description   = %q{Simple, Unix-oriented alerting system that lets you define checks and alerts in any language and then magically runs them on Heroku.}
-  gem.summary       = %q{Simple, Unix-oriented alerting system}
+  gem.description   = %q{Simple alerting system that lets you define checks and alerts in any language that are then magically run on Heroku.}
+  gem.summary       = %q{Simple, polyglot alerting system}
   gem.homepage      = "http://github.com/progrium/skywatch"
 
   gem.files         = `git ls-files`.split($/)
