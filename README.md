@@ -30,7 +30,7 @@ subcommands. Here is the quickest way to something interesting:
  * Completely automated deployment
  * Easily monitor activity logs in real-time
  * Enable / disable checks or alerts
- * No flapping! It just doesn't happen.
+ * Unphased by flapping. You get alerted once.
  * Entire system is in self-contained CLI tool
  * Simple enough for personal use, powerful enough for commercial use
  * Can be used for building adaptive systems?
