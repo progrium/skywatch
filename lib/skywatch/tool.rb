@@ -13,6 +13,7 @@ module Skywatch
         fail if not $?.exitstatus.zero?
         puts `heroku addons:add sendgrid:starter`
         system "cp #{watcher_path}/* ."
+        system "bundle install"
       end
       mkdir 'alerts' rescue nil
       mkdir 'checks' rescue nil

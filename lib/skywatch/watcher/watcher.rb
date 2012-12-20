@@ -20,6 +20,8 @@ def executables(glob)
 end
 
 mkdir_p 'output'
+mkdir_p 'checks'
+mkdir_p 'alerts'
 
 executables('checks/*').each do |check|
   interval, name = File.basename(check).split('.', 2)
