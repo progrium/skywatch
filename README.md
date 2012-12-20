@@ -24,6 +24,9 @@ subcommands. Here is the quickest way to something interesting:
 
 ## What the hell is this amazing thing??
 
+**tl;dr, skywatch is just a tool to run repeating check scripts on
+Heroku. It's the simplest idea wrapped into a convenient utility.**
+
 Skywatch is a command-line utility that manages checking and alerting
 scripts used by a builtin watcher service. Skywatch deploys these
 scripts and service for you on Heroku where they can run and monitor
@@ -47,9 +50,6 @@ You manage your scripts locally with the skywatch command, or by hand
 since they're just files in directories. When you want to deploy script
 changes, toggle enabled scripts, or reset the alert state, you can run a
 skywatch command and it will handle pushing changes to Heroku for you.
-
-**In the end, skywatch is just a tool to run repeating check scripts on
-Heroku. It's the simplest idea wrapped into a convenient utility.**
 
 ## Getting Started
 
