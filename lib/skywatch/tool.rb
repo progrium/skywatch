@@ -13,14 +13,27 @@ module Skywatch
         fail if not $?.exitstatus.zero?
         puts `heroku addons:add sendgrid:starter`
         system "cp #{watcher_path}/* ."
-        system "bundle install"
+        system "bundle install > /dev/null 2>&1"
       end
       mkdir 'alerts' rescue nil
       mkdir 'checks' rescue nil
       system "echo '.skywatch' > .gitignore"
+      deploy
+      cd '.skywatch' do
+        system "heroku ps:scale watcher=1"
+      end
     rescue
       rm_rf '.skywatch'
     end
+  end
+
+  def logged_in?
+    `heroku auth:token < /dev/null`
+    $?.exitstatus.zero?
+  end
+
+  def login
+    exec 'heroku auth:login'
   end
 
   def watcher_path
@@ -135,7 +148,7 @@ module Skywatch
 
   def destroy
     fail unless skywatch?
-    puts `heroku apps:destroy #{name} --confirm #{name}`
+    puts `heroku apps:destroy -a #{name} --confirm #{name}`
     rm_rf '.skywatch'
   end
 

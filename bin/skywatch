@@ -23,12 +23,20 @@ def display_alert(alert)
     alert.name, "<%= color #{status} %>"]
 end
 
+def ensure_logged_in
+  if not logged_in?
+    say_warning "You're not logged into Heroku. Please login then try again"
+    login
+  end
+end
+
 command :init do |c|
   c.syntax = 'skywatch init [name]'
   c.description = 'Initializes skywatch in the current directory'
   c.action do |args, options|
+    ensure_logged_in
     init args.first
-    say_ok "Skywatch initialized"
+    say_ok "Skywatch initialized as #{name}"
   end
 end
 
@@ -124,6 +132,7 @@ command :reset do |c|
   c.syntax = 'skywatch reset'
   c.description = 'Reset running check states'
   c.action do
+    ensure_logged_in
     reset
   end
 end
@@ -132,6 +141,7 @@ command :monitor do |c|
   c.syntax = 'skywatch monitor'
   c.description = 'Monitor the running checks'
   c.action do
+    ensure_logged_in
     monitor
   end
 end
@@ -140,6 +150,7 @@ command :deploy do |c|
   c.syntax = 'skywatch deploy'
   c.description = 'Deploy this skywatch'
   c.action do
+    ensure_logged_in
     deploy
   end
 end
@@ -148,6 +159,7 @@ command :destroy do |c|
   c.syntax = 'skywatch destroy'
   c.description = 'Destroy skywatch Heroku app and stage directory'
   c.action do
+    ensure_logged_in
     destroy
   end
 end
