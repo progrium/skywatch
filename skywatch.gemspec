@@ -21,5 +21,5 @@ Gem::Specification.new do |gem|
 
   gem.add_dependency "commander", "~> 4.1"
   gem.add_dependency "heroku", "~> 2.33"
-  gem.add_dependency "bundler", "~> 1.3"
+  gem.add_dependency "bundler", "~> 1.2"
 end

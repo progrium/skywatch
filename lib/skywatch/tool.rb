@@ -133,6 +133,12 @@ module Skywatch
     end
   end
 
+  def destroy
+    fail unless skywatch?
+    puts `heroku apps:destroy #{name} --confirm #{name}`
+    rm_rf '.skywatch'
+  end
+
   class Script
     attr :path
     attr :name

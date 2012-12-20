@@ -144,6 +144,14 @@ command :deploy do |c|
   end
 end
 
+command :destroy do |c|
+  c.syntax = 'skywatch destroy'
+  c.description = 'Destroy skywatch Heroku app and stage directory'
+  c.action do
+    destroy
+  end
+end
+
 #command :'destroy alert' do |c|
 #  c.syntax = 'skywatch destroy alert <name>'
 #  c.description = 'Delete an alert script'
