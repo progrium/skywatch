@@ -4,6 +4,8 @@ require 'commander/import'
 
 require 'skywatch'
 
+include Skywatch
+
 program :name, 'skywatch'
 program :version, Skywatch::VERSION
 program :description, 'Simple, Unix-oriented alerting system'
@@ -12,6 +14,6 @@ command :init do |c|
   c.syntax = 'skywatch init [name]'
   c.description = 'Initializes skywatch in the current directory'
   c.action do |args, options|
-    Skywatch.init('.', args.first)
+    init('.', args.first)
   end
 end
