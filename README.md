@@ -15,12 +15,12 @@ NoOps! Polyglot! Free monitoring of anything!
 It's a fairly powerful tool. Run `skywatch --help` to see a list of
 subcommands. Here is the quickest way to something interesting:
 
-    $ mkdir demo && cd demo
-    $ skywatch init # this will fail and require auth
-    $ skywatch init # once more after logged in
-    $ skywatch enable check example
-    $ skywatch deploy
-    $ skywatch monitor
+    $ mkdir demo && cd demo   # make a directory for your scripts
+    $ skywatch init           # this will fail and require Heroku auth
+    $ skywatch init           # run again, after logged in
+    $ skywatch enable check example    # enable the example check script
+    $ skywatch deploy         # everything is shipped to Heroku
+    $ skywatch monitor        # watch it run
 
 ## Features
 
@@ -31,6 +31,7 @@ subcommands. Here is the quickest way to something interesting:
  * Easily monitor activity logs in real-time
  * Enable / disable checks or alerts
  * No flapping! It just doesn't happen.
+ * Entire system is in self-contained CLI tool
  * Simple enough for personal use, powerful enough for commercial use
  * Can be used for building adaptive systems?
 
