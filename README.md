@@ -29,7 +29,7 @@ subcommands. Here is the quickest way to something interesting:
  * Runs in the cloud on Heroku for free
  * Completely automated deployment
  * Easily monitor activity logs in real-time
- * Enable / disable checks or scripts
+ * Enable / disable checks or alerts
  * No flapping! It just doesn't happen.
  * Simple enough for personal use, powerful enough for commercial use
  * Can be used for building adaptive systems?
