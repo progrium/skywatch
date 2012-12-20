@@ -1,7 +1,8 @@
 # Skywatch (alpha)
 
-Simple alerting system that lets you define checks and alerts in any
-language that are then magically run on Heroku.
+A simple alerting system that lets you define checks and alerts in any
+language that are then magically run on Heroku. Nagios can go cry in a
+corner.
 
 NoOps! Polyglot! Free monitoring of anything!
 
@@ -9,11 +10,17 @@ NoOps! Polyglot! Free monitoring of anything!
 
     $ gem install skywatch
 
-## Usage
+## Usage / Quickstart
 
-It's a fairly powerful tool. Run help to see a list of subcommands.
+It's a fairly powerful tool. Run `skywatch --help` to see a list of
+subcommands. Here is the quickest way to something interesting:
 
-    $ skywatch -h
+    $ mkdir demo && cd demo
+    $ skywatch init # this will fail and require auth
+    $ skywatch init # once more after logged in
+    $ skywatch enable check example
+    $ skywatch deploy
+    $ skywatch monitor
 
 ## What the hell is this amazing thing??
 
@@ -51,14 +58,13 @@ for you:
     $ cd my-watcher
     $ skywatch init
 
-At this point, it will have you authenticate with your Heroku
-credentials if you haven't already. Grab a free account if you don't
-have one. 
-
-When you run `skywatch init` authenticated it will create some example
-alerts and checks for you, and deploy a Heroku app. None of the checks
-or alerts are enabled by default. See everything by just running
-`skywatch` from the directory:
+It will have you authenticate with your Heroku credentials if you
+haven't already. [Grab a free account if you don't have
+one.](https://api.heroku.com/signup) When you run `skywatch init`
+authenticated it will create some example alerts and checks, then deploy
+an empty watcher to Heroku. None of the checks or alerts are enabled by
+default. See the scripts it set up by just `skywatch` from the
+directory:
 
     $ skywatch
       Checks for fathomless-crag-3169
@@ -129,8 +135,8 @@ This destroys the Heroku app and the `.skywatch` directory. It doesn't
 touch your scripts at all. In fact, you can run `skywatch init` again if
 you'd like. 
 
-The source code to all this is terribly simple. The watcher service is
-only about 50 lines of Ruby. Everything else is just file operations.
+The source code to all this is terribly simple. [The watcher service is
+only about 50 lines of Ruby.](https://github.com/progrium/skywatch/blob/master/lib/skywatch/watcher/watcher.rb) Everything else is just file operations.
 In fact, the little state it maintains is kept in file metadata. For how
 automated it is, skywatch has to be one of the simplest monitoring services
 ever.
@@ -145,7 +151,11 @@ The only conventions of check scripts are the interval-in-the-filename and that 
 verbose.
 
 If you're using bash, it's a good idea to use `set -e` so any failed
-subcommand will bubble up.
+subcommand will bubble up. Here's an example check script:
+
+    #!/usr/bin/env bash
+    set -e
+    curl --trace-ascii --silent --fail http://example.com
 
 ## Writing Alert Scripts
 
@@ -156,7 +166,23 @@ script.
 
 The alert script is given the output of the check script via STDIN. It's
 also given 2 arguments. The first is the name of the check script. The
-second is the exit status of the failed check script.
+second is the exit status of the failed check script. Here's an example
+alert script:
+
+    #!/usr/bin/env bash
+    TO=foobar@example.com
+    SUBJECT="[skywatch] $1"
+    BODY=`echo -e "Failure with status $2:\n\n$(cat)"`
+    set -e
+    curl \
+      -X 'POST' \
+      -F "api_user=$SENDGRID_USERNAME" \
+      -F "api_key=$SENDGRID_PASSWORD" \
+      -F "to=$TO" \
+      -F "subject=$SUBJECT" \
+      -F "text=$BODY" \
+      -F "from=$TO" \
+      --silent --fail "https://sendgrid.com/api/mail.send.json"
 
 The output of an alert script is ignored. It might be a good idea to log
 the output of failed alert scripts. You'd then be able to see it via
