@@ -15,9 +15,15 @@ module Skywatch
         system "cp #{watcher_path}/* ."
         system "bundle install > /dev/null 2>&1"
       end
-      mkdir 'alerts' rescue nil
-      mkdir 'checks' rescue nil
-      system "echo '.skywatch' > .gitignore"
+      mkdir_p 'alerts'
+      if Dir['alerts/*'].empty?
+        system "cp #{builtin_path}/alerts/* alerts"
+      end
+      mkdir_p 'checks'
+      if Dir['checks/*'].empty?
+        system "cp #{builtin_path}/checks/* checks"
+      end
+      system "echo '.skywatch' >> .gitignore"
       deploy
       cd '.skywatch' do
         system "heroku ps:scale watcher=1"
@@ -38,6 +44,10 @@ module Skywatch
 
   def watcher_path
     File.dirname(__FILE__)+"/watcher"
+  end
+
+  def builtin_path
+    File.dirname(__FILE__)+"/builtin"
   end
 
   def skywatch?

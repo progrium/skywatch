@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+TO=
+SUBJECT="[skywatch] $1"
+BODY=`echo -e "Failure with status $2:\n\n$(cat)"`
+set -e
+curl \
+  -X 'POST' \
+  -F "api_user=$SENDGRID_USERNAME" \
+  -F "api_key=$SENDGRID_PASSWORD" \
+  -F "to=$TO" \
+  -F "subject=$SUBJECT" \
+  -F "text=$BODY" \
+  -F "from=$TO" \
+  --silent --fail "https://sendgrid.com/api/mail.send.json"

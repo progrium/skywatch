@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+set -e
+curl --trace-ascii --silent --fail http://example.com
