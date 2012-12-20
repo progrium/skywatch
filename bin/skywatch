@@ -129,7 +129,11 @@ command :'create alert' do |c|
     fail unless args.length > 0
     interpreter = args.length > 1 ? args[1] : 'bash'
     alert = create_alert(args.first, interpreter)
-    display_alert alert
+    if ENV['EDITOR'].to_s.empty?
+      display_alert alert
+    else
+      exec "#{ENV['EDITOR']} #{alert.path}"
+    end
   end
 end
 
@@ -140,7 +144,11 @@ command :'create check' do |c|
     fail unless args.length > 1
     interpreter = args.length > 2 ? args[2] : 'bash'
     check = create_check(args[0], args[1], interpreter)
-    display_check check
+    if ENV['EDITOR'].to_s.empty?
+      display_check check
+    else
+      exec "#{ENV['EDITOR']} #{check.path}"
+    end
   end
 end
 

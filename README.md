@@ -101,9 +101,6 @@ The last argument is the interval. Intervals are always in seconds. All
 this did was create a new file under the `checks` directory with a
 little bit of boiler plate. Let's replace its contents with this:
 
-    $ skywatch edit check failure_test
-
-
     #!/usr/bin/env bash
     echo "Oh no, a failed check."
     exit 255
