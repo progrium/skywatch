@@ -15,12 +15,12 @@ NoOps! Polyglot! Free monitoring of anything!
 It's a fairly powerful tool. Run `skywatch --help` to see a list of
 subcommands. Here is the quickest way to something interesting:
 
-    $ mkdir demo && cd demo   # make a directory for your scripts
-    $ skywatch init           # this will fail and require Heroku auth
-    $ skywatch init           # run again, after logged in
-    $ skywatch enable check example    # enable the example check script
-    $ skywatch deploy         # everything is shipped to Heroku
-    $ skywatch monitor        # watch it run
+    $ mkdir demo && cd demo             # make a directory for your scripts
+    $ skywatch init                     # this will fail and require Heroku auth
+    $ skywatch init                     # run again, after logged in
+    $ skywatch enable check example     # enable the example check script
+    $ skywatch deploy                   # everything is shipped to Heroku
+    $ skywatch monitor                  # watch it run in the cloud
 
 ## Features
 
@@ -64,7 +64,7 @@ since they're just files in directories. When you want to deploy script
 changes, toggle enabled scripts, or reset the alert state, you can run a
 skywatch command and it will handle pushing changes to Heroku for you.
 
-## Getting Started
+## Using skywatch
 
 The skywatch command manages a directory containing check scripts and
 alert scripts. You can make a new directory and let skywatch set this up
