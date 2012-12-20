@@ -29,7 +29,7 @@ Heroku. It's the simplest idea wrapped into a convenient utility.**
 
 Skywatch is a command-line utility that manages checking and alerting
 scripts used by a builtin watcher service. Skywatch deploys these
-scripts and service for you on Heroku where they can run and monitor
+scripts and the service on Heroku where they can run and monitor
 anything from the cloud for free.
 
 The watcher service runs check scripts that can assert
