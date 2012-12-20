@@ -57,8 +57,8 @@ The skywatch command manages a directory containing check scripts and
 alert scripts. You can make a new directory and let skywatch set this up
 for you:
 
-    $ mkdir my-watcher
-    $ cd my-watcher
+    $ mkdir skywatch-demo
+    $ cd skywatch-demo
     $ skywatch init
 
 It will have you authenticate with your Heroku credentials if you
@@ -102,6 +102,7 @@ this did was create a new file under the `checks` directory with a
 little bit of boiler plate. Let's replace its contents with this:
 
     $ skywatch edit check failure_test
+
 
     #!/usr/bin/env bash
     echo "Oh no, a failed check."
