@@ -29,7 +29,7 @@ check script and other useful data. Alert scripts can then act on this
 assertion failure, such as send email, SMS, or webhook.
 
 The check script will continue to run and potentially fail, but the
-alert script only runs once, if without error. Only until a reset signal
+alert script only runs once if it ran without error. Only until a reset signal
 is sent will it be ready to fire the alert again for any failed check
 script. In this way, alerts work like [clip
 indicators](http://help.adobe.com/en_US/audition/cs/using/WS58a04a822e3e5010548241038980c2c5-7f93.html)
