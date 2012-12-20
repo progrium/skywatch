@@ -24,7 +24,7 @@ subcommands. Here is the quickest way to something interesting:
 
 ## What the hell is this amazing thing??
 
-**tl;dr, skywatch is just a tool to run repeating check scripts on
+**tl;dr, skywatch is a tool to run repeating check scripts on
 Heroku. It's the simplest idea wrapped into a convenient utility.**
 
 Skywatch is a command-line utility that manages checking and alerting
