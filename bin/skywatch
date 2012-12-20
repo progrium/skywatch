@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 require 'rubygems'
 require 'commander/import'
+require 'highline/import'
 
 require 'skywatch'
 
@@ -10,10 +11,157 @@ program :name, 'skywatch'
 program :version, Skywatch::VERSION
 program :description, 'Simple, Unix-oriented alerting system'
 
+def display_check(check)
+  status = check.enabled? ? "'enabled', :green" : "'disabled', :red"
+  say "    %-24s %-16s %s" % [
+    check.name, "every #{check.interval}s", "<%= color #{status} %>"]
+end
+
+def display_alert(alert)
+  status = alert.enabled? ? "'enabled', :green" : "'disabled', :red"
+  say "    %-16s %s" % [
+    alert.name, "<%= color #{status} %>"]
+end
+
 command :init do |c|
   c.syntax = 'skywatch init [name]'
   c.description = 'Initializes skywatch in the current directory'
   c.action do |args, options|
-    init('.', args.first)
+    init args.first
+    say_ok "Skywatch initialized"
   end
 end
+
+command :checks do |c|
+  c.syntax = 'skywatch checks'
+  c.description = 'Lists checks'
+  c.action do |args, options|
+    puts "  Checks for #{name}"
+    checks.each do |check|
+      display_check check
+    end
+  end
+end
+
+command :alerts do |c|
+  c.syntax = 'skywatch alerts'
+  c.description = 'Lists alerts'
+  c.action do |args, options|
+    puts "  Alerts for #{name}"
+    alerts.each do |alert|
+      display_alert alert
+    end
+  end
+end
+
+command :'enable check' do |c|
+  c.syntax = 'skywatch enable check <name>'
+  c.description = 'Enable a check'
+  c.action do |args, options|
+    fail unless args.length > 0
+    check = check(args.first)
+    check.enable
+    display_check check
+  end
+end
+
+command :'disable check' do |c|
+  c.syntax = 'skywatch disable check <name>'
+  c.description = 'Disable a check'
+  c.action do |args, options|
+    fail unless args.length > 0
+    check = check(args.first)
+    check.disable
+    display_check check
+  end
+end
+
+command :'enable alert' do |c|
+  c.syntax = 'skywatch enable alert <name>'
+  c.description = 'Enable an alert'
+  c.action do |args, options|
+    fail unless args.length > 0
+    alert = alert(args.first)
+    alert.enable
+    display_alert alert
+  end
+end
+
+command :'disable alert' do |c|
+  c.syntax = 'skywatch disable alert <name>'
+  c.description = 'Disable an alert'
+  c.action do |args, options|
+    fail unless args.length > 0
+    alert = alert(args.first)
+    alert.disable
+    display_alert alert
+  end
+end
+
+command :'create alert' do |c|
+  c.syntax = 'skywatch create alert <name> [interpreter]'
+  c.description = 'Create an alert script. Default interpreter is bash'
+  c.action do |args, options|
+    fail unless args.length > 0
+    interpreter = args.length > 1 ? args[1] : 'bash'
+    alert = create_alert(args.first, interpreter)
+    display_alert alert
+  end
+end
+
+command :'create check' do |c|
+  c.syntax = 'skywatch create check <name> <interval> [interpreter]'
+  c.description = 'Create a check script. Default interpreter is bash'
+  c.action do |args, options|
+    fail unless args.length > 1
+    interpreter = args.length > 2 ? args[2] : 'bash'
+    check = create_check(args[0], args[1], interpreter)
+    display_check check
+  end
+end
+
+command :reset do |c|
+  c.syntax = 'skywatch reset'
+  c.description = 'Reset running check states'
+  c.action do
+    reset
+  end
+end
+
+command :monitor do |c|
+  c.syntax = 'skywatch monitor'
+  c.description = 'Monitor the running checks'
+  c.action do
+    monitor
+  end
+end
+
+command :deploy do |c|
+  c.syntax = 'skywatch deploy'
+  c.description = 'Deploy this skywatch'
+  c.action do
+    deploy
+  end
+end
+
+#command :'destroy alert' do |c|
+#  c.syntax = 'skywatch destroy alert <name>'
+#  c.description = 'Delete an alert script'
+#  c.action do |args, options|
+#    fail unless args.length > 0
+#    alert = alert(args.first)
+#    alert.destroy
+#    say "  Alert <%= color '#{alert.name}', :bold %> has been destroyed"
+#  end
+#end
+
+#command :'destroy check' do |c|
+#  c.syntax = 'skywatch destroy check <name>'
+#  c.description = 'Delete a check script'
+#  c.action do |args, options|
+#    fail unless args.length > 0
+#    check = check(args.first)
+#    check.destroy
+#    say "  Check <%= color '#{check.name}', :bold %> has been destroyed"
+#  end
+#end
