@@ -48,6 +48,9 @@ since they're just files in directories. When you want to deploy script
 changes, toggle enabled scripts, or reset the alert state, you can run a
 skywatch command and it will handle pushing changes to Heroku for you.
 
+**In the end, skywatch is just a tool to run repeating check scripts on
+Heroku. It's the simplest idea wrapped into a convenient utility.**
+
 ## Getting Started
 
 The skywatch command manages a directory containing check scripts and
@@ -63,7 +66,7 @@ haven't already. [Grab a free account if you don't have
 one.](https://api.heroku.com/signup) When you run `skywatch init`
 authenticated it will create some example alerts and checks, then deploy
 an empty watcher to Heroku. None of the checks or alerts are enabled by
-default. See the scripts it set up by just `skywatch` from the
+default. See the scripts it set up by just running `skywatch` from the
 directory:
 
     $ skywatch
@@ -98,11 +101,13 @@ The last argument is the interval. Intervals are always in seconds. All
 this did was create a new file under the `checks` directory with a
 little bit of boiler plate. Let's replace its contents with this:
 
+    $ skywatch edit check failure_test
+
     #!/usr/bin/env bash
     echo "Oh no, a failed check."
     exit 255
 
-Enable the check and then we'll deploy:
+Enable the check and then deploy:
 
     $ skywatch enable check failure_test
     $ skywatch deploy
