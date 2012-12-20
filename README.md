@@ -22,21 +22,33 @@ subcommands. Here is the quickest way to something interesting:
     $ skywatch deploy
     $ skywatch monitor
 
+## Features
+
+ * Lets you monitor or assert anything at any frequency
+ * Scriptable alerts (email, sms, tweet, etc)
+ * Runs in the cloud on Heroku for free
+ * Completely automated deployment
+ * Easily monitor activity logs in real-time
+ * Enable / disable checks or scripts
+ * No flapping! It just doesn't happen.
+ * Simple enough for personal use, powerful enough for commercial use
+ * Can be used for building adaptive systems?
+
 ## What the hell is this amazing thing??
 
 **tl;dr, skywatch is a tool to run repeating check scripts on
 Heroku. It's the simplest idea wrapped into a convenient utility.**
 
 Skywatch is a command-line utility that manages checking and alerting
-scripts used by a builtin watcher service. Skywatch deploys these
+scripts used by a small (50 lines) watcher service. Skywatch deploys these
 scripts and the service on Heroku where they can run and monitor
 anything from the cloud for free.
 
-The watcher service runs check scripts that can assert
-anything at any frequency. If a check script returns a non-zero exit status, 
-it will fire any enabled alert scripts, passing it the output of the
-check script and other useful data. Alert scripts can then act on this
-assertion failure, such as send email, SMS, or webhook.
+The watcher service runs check scripts that can assert anything at any
+frequency. If a check script returns a non-zero exit status, it will
+fire any enabled alert scripts, passing it the output of the check
+script. Alert scripts can then act on this assertion failure, such as
+send email, SMS, or webhook.
 
 The check script will continue to run and potentially fail, but the
 alert script only runs once if it ran without error. Only until a reset signal
